@@ -10,8 +10,8 @@ docker build -t blognginx nginx
 ## Run the containers for the blog app
 ### Preparation
 docker images:
-* blogapi
-* blognginx
+* blogapi, from [blogapi repo][https://github.com/bradleyzhou/blog-api]
+* blognginx, from `nginx` directory here
 
 ### Run
 ```
