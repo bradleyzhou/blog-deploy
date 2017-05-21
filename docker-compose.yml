@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+    blogapi:
+        image: blogapi
+        volumes:
+            - blogapi-sock:/BlogAPISock
+    blognginx:
+        image: blognginx
+        ports:
+            - "8000:80"
+            - "8443:443"
+        volumes:
+            - blogapi-sock:/BlogAPISock
+        depends_on:
+            - blogapi
+
+volumes:
+    blogapi-sock:
