@@ -1,16 +1,36 @@
 version: "3"
 
 services:
+    db:
+        image: postgres
+        volumes:
+            - ./postgres/blogdata:/var/lib/postgresql/data/blog
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${PG_PASS}
+            - PGDATA=${PGDATA}
+            - POSTGRES_DB=${POSTGRES_DB}
+        networks:
+            - backend
     blogapi:
         image: blogapi
+        networks:
+            - frontend
+            - backend
+        environment:
+            - DEV_DATABASE_URL=postgres://${POSTGRES_USER}:${PG_PASS}@db:5432/${POSTGRES_DB}
         volumes:
             - blogapi-sock:/BlogAPISock
             - ./python-uwsgi/uwsgi.ini:/app/uwsgi.ini:ro
+        depends_on:
+            - db
     blognginx:
         image: blognginx
         ports:
             - "8000:80"
             - "8443:443"
+        networks:
+            - frontend
         volumes:
             - blogapi-sock:/BlogAPISock
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -20,3 +40,7 @@ services:
 
 volumes:
     blogapi-sock:
+
+networks:
+    frontend:
+    backend:
