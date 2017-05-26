@@ -35,10 +35,10 @@ The configs are in `docker-compose.yml`. This file also servers as a documentati
 - In image `blogapi-sock`, Nginx is configured to run as user `www-data`, and communicate to `/BlogAPISock/app.sock`.
 
 ```
-                  blognginx                 Volume              blogapi
-Incoming     ---------------------     ----------------     ----------------
-Requests <-> | nginx unix socket | <-> | blogapi-sock | <-> | uWSGI socket |
-             ---------------------     ----------------     ----------------
+                  blognginx            blogapi-sock         blogapi
+Incoming     ---------------------     ------------     ----------------
+Requests <-> | nginx unix socket | <-> | app.sock | <-> | uWSGI socket |
+             ---------------------     ------------     ----------------
 ```
 
 ### Frontend static files
