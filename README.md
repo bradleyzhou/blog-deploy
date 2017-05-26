@@ -4,7 +4,7 @@ Deployment of blog.bradleyzhou.com using Docker containers
 
 ## Preparation
 ### Build `blognginx` image
-This modified image `blognginx` exposes ports 80 and 443
+This modified image `blognginx` exposes ports `80` and `443`
 ```
 docker build -t blognginx nginx
 ```
