@@ -1,20 +1,22 @@
 # blog-deploy
-Deployment of blog.bradleyzhou.com
+Deployment of blog.bradleyzhou.com using Docker containers
 
 
-## Build blognginx image
+## Preparation
+### Build `blognginx` image
+This modified image `blognginx` exposes ports 80 and 443
 ```
 docker build -t blognginx nginx
 ```
 
-## Run the containers for the blog app
-### Preparation
-- docker images:
-    * blogapi, from [blog-api repo](https://github.com/bradleyzhou/blog-api)
-    * blognginx, from `nginx` directory here
-- frontend static files under `frontend` directory, built from [blog-frontend repo](https://github.com/bradleyzhou/blog-frontend)
+### Build `blogapi` image
+See [blog-api repo](https://github.com/bradleyzhou/blog-api)
 
-### Run
+### Prepare `frontend` static files
+- Build the static files from [blog-frontend repo](https://github.com/bradleyzhou/blog-frontend) (e.g. run `npm run build`)
+- Put these files under `frontend` directory (e.g. rename and move `dist` directory)
+
+## Run
 ```
 # with console outputs
 docker-compose up
@@ -24,6 +26,8 @@ docker-compose up -d
 ```
 
 ## Notes on how it works
+The configs are in `docker-compose.yml`. This file also servers as a documentation for the setup.
+
 ### Socket communication of `uwsgi` and `nginx`
 - In docker image `blogapi`, uWSGI runs with a socket file `/BlogAPISock/app.sock`, file owner is `www-data`.
 - `/BlogAPISock` is mounted as a volume named `blogapi-sock`.
