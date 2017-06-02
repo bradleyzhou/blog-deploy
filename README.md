@@ -10,7 +10,11 @@ cd blog-deploy
 ```
 
 ### Build `blognginx` image
-This modified image `blognginx` exposes ports `80` and `443`
+Prepare `frontend` static files
+- Build the static files from [blog-frontend repo](https://github.com/bradleyzhou/blog-frontend) (e.g. run `npm run build`)
+* Put these files under `nging/frontend` directory (e.g. rename and move `dist` directory)
+
+This image exposes ports `80` and `443`
 ```
 docker build -t blognginx nginx
 ```
@@ -18,14 +22,14 @@ docker build -t blognginx nginx
 ### Build `blogapi` image
 See [blog-api repo](https://github.com/bradleyzhou/blog-api)
 
-### Prepare `frontend` static files
-- Build the static files from [blog-frontend repo](https://github.com/bradleyzhou/blog-frontend) (e.g. run `npm run build`)
-- Put these files under `frontend` directory (e.g. rename and move `dist` directory)
 
 ### Prepare the database
 Data storage of Postgres image is mapped to `postgres/blogdata/`, and expects an empty directory. But to keep this directory in Git, a `.gitkeep` file is created (Git won't remember empty directories). To resolve this issue, delete the `.gitkeep` file.
 ```
 rm ./postgres/blogdata/.gitkeep
+
+# or create the dir if not exist
+mkdir -p ./postgres/blogdata
 ```
 
 When deploy for the first time, there won't be any database or schema. Thus for fresh deployment, the database must be initialized. Environment variables for creating database is specified in `.env` and `docker-compose.yml`.
@@ -57,7 +61,7 @@ docker-compose up -d
 ```
 
 ## Notes on how it works
-The configs are in `docker-compose.yml`. It also servers as a documentation for the setup.
+The configs are in `docker-compose.yml`, some environment variables are kept in `.env` which are automatically picked up by `docker-compose`. The config also servers as a documentation for the setup.
 
 ### Socket communication of `uwsgi` and `nginx`
 - In docker image `blogapi`, uWSGI runs with a socket file `/BlogAPISock/app.sock`, file owner is `www-data`.
@@ -75,9 +79,8 @@ Requests <-> | nginx unix socket | <-> | app.sock | <-> | uWSGI socket |
 ### Frontend static files
 - The frontend static files are built by `npm build` in [blog-frontend repo](https://github.com/bradleyzhou/blog-frontend).
 - The build will output a `dist` directory, which is renamed `frontend` and moved to current directory.
-- The `frontend` directory is mapped into `blognginx` image in `docker-compose.yml`.
-- Relavant configs are in `nginx/nginx.conf`, also mapped into `blognginx` image.
-- When `blognginx` image runs, it will find the correct image and static files.
+- The contents in `nginx/frontend` directory are copied into `blognginx` image at `/var/www` when building the image.
+- Relavant configs are in `nginx/nginx.conf`, also built into `blognginx` image.
 
 ### Database
 - Uses [`postgres` Docker image](https://hub.docker.com/_/postgres/), configured in `docker-compose.yml`.
