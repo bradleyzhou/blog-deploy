@@ -13,7 +13,7 @@ services:
         networks:
             - backend
     blogapi:
-        image: blogapi
+        image: bradleyzhou/blogapi
         networks:
             - frontend
             - backend
@@ -24,10 +24,10 @@ services:
         depends_on:
             - db
     blognginx:
-        image: blognginx
+        image: bradleyzhou/blognginx
         ports:
-            - "8000:80"
-            - "8443:443"
+            - "80:80"
+            - "443:443"
         networks:
             - frontend
         volumes:
