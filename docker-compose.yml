@@ -32,6 +32,8 @@ services:
             - frontend
         volumes:
             - blogapi-sock:/BlogAPISock
+            - /etc/letsencrypt/live/www.bradleyzhou.com/cert.pem:/etc/ssl/cert.pem:ro
+            - /etc/letsencrypt/live/www.bradleyzhou.com/privkey.pem:/etc/ssl/privkey.pem:ro
         depends_on:
             - blogapi
 
