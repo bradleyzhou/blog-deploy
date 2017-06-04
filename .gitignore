@@ -1,5 +1,3 @@
 frontend/*
 postgres/*
 nginx/frontend
-dev_cert.pem
-dev_privkey.pem
