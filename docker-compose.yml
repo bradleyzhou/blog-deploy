@@ -18,7 +18,9 @@ services:
             - frontend
             - backend
         environment:
-            - DEV_DATABASE_URL=postgres://${POSTGRES_USER}:${PG_PASS}@db:5432/${POSTGRES_DB}
+            - FLASK_CONFIG=unix
+            - SECRET_KEY=${SECRET_KEY}
+            - DATABASE_URL=postgres://${POSTGRES_USER}:${PG_PASS}@db:5432/${POSTGRES_DB}
         volumes:
             - blogapi-sock:/BlogAPISock
         depends_on:

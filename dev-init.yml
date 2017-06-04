@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+    blogapi:
+        environment:
+            - FLASK_APP=manage.py
+            - ADMIN_EMAIL=admin@example.com
+            - ADMIN_NAME=admin
+            - ADMIN_KEY=123
+            - PG_PASS=123
+        command: bash -c "flask db init && flask db migrate && flask db upgrade && flask deploy && flask fake"
