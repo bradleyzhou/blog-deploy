@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+    db:
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=123
+            - PGDATA=${PGDATA}
+            - POSTGRES_DB=${POSTGRES_DB}
+        volumes:
+            - ./postgres/blogdata_dev:/var/lib/postgresql/data/blog
+    blogapi:
+        environment:
+            - FLASK_CONFIG=development
+            - SECRET_KEY=DLYItYU3V
+            - DEV_DATABASE_URL=postgres://${POSTGRES_USER}:123@db:5432/${POSTGRES_DB}
+    blognginx:
+        volumes:
+            - ./dev_cert.pem:/etc/ssl/cert.pem:ro
+            - ./dev_privkey.pem:/etc/ssl/privkey.pem:ro

@@ -7,4 +7,4 @@ services:
             - ADMIN_KEY=${ADMIN_KEY}
             - ADMIN_NAME=${ADMIN_NAME}
             - ADMIN_EMAIL=${ADMIN_EMAIL}
-        command: bash -c "flask db init && flask db migrate && flask db upgrade && flask add_admin"
+        command: bash -c "flask db init && flask db migrate && flask db upgrade && flask deploy"
