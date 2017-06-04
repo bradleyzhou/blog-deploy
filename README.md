@@ -116,7 +116,7 @@ export PG_PASS=<db_pass>
 export ADMIN_NAME=<your_name>
 export ADMIN_EMAIL=<your@em.ail>
 export ADMIN_KEY=<choose_and_remember_user_pass>
-docker-compose -f docker-compose.yml -f init.yml run blogapi
+docker-compose -f docker-compose.yml -f prod.yml -f init.yml run blogapi
 ```
 
 ## Run
@@ -124,12 +124,12 @@ docker-compose -f docker-compose.yml -f init.yml run blogapi
 # with console outputs
 export SECRET_KEY=<super_secret_key>
 export PG_PASS=<db_pass>
-docker-compose up
+docker-compose -f docker-compose.yml -f prod.yml up
 
 # or in background
 export SECRET_KEY=<super_secret_key>
 export PG_PASS=<db_pass>
-docker-compose up -d
+docker-compose -f docker-compose.yml -f prod.yml up -d
 ```
 
 ## Notes on how it works

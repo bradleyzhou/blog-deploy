@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+    db:
+        volumes:
+            - ./postgres/blogdata:/var/lib/postgresql/data/blog
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${PG_PASS}
+            - PGDATA=${PGDATA}
+            - POSTGRES_DB=${POSTGRES_DB}
+    blogapi:
+        environment:
+            - FLASK_CONFIG=unix
+            - SECRET_KEY=${SECRET_KEY}
+            - DATABASE_URL=postgres://${POSTGRES_USER}:${PG_PASS}@db:5432/${POSTGRES_DB}
+    blognginx:
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - /etc/letsencrypt/live/www.bradleyzhou.com/cert.pem:/etc/ssl/cert.pem:ro
+            - /etc/letsencrypt/live/www.bradleyzhou.com/privkey.pem:/etc/ssl/privkey.pem:ro

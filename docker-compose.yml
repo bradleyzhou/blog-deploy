@@ -3,8 +3,6 @@ version: "3"
 services:
     db:
         image: postgres
-        volumes:
-            - ./postgres/blogdata:/var/lib/postgresql/data/blog
         environment:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${PG_PASS}
@@ -17,25 +15,16 @@ services:
         networks:
             - frontend
             - backend
-        environment:
-            - FLASK_CONFIG=unix
-            - SECRET_KEY=${SECRET_KEY}
-            - DATABASE_URL=postgres://${POSTGRES_USER}:${PG_PASS}@db:5432/${POSTGRES_DB}
         volumes:
             - blogapi-sock:/BlogAPISock
         depends_on:
             - db
     blognginx:
         image: bradleyzhou/blognginx
-        ports:
-            - "80:80"
-            - "443:443"
         networks:
             - frontend
         volumes:
             - blogapi-sock:/BlogAPISock
-            - /etc/letsencrypt/live/www.bradleyzhou.com/cert.pem:/etc/ssl/cert.pem:ro
-            - /etc/letsencrypt/live/www.bradleyzhou.com/privkey.pem:/etc/ssl/privkey.pem:ro
         depends_on:
             - blogapi
 

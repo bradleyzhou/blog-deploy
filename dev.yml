@@ -15,6 +15,9 @@ services:
             - SECRET_KEY=DLYItYU3V
             - DEV_DATABASE_URL=postgres://${POSTGRES_USER}:123@db:5432/${POSTGRES_DB}
     blognginx:
+        ports:
+            - "8000:80"
+            - "8443:443"
         volumes:
             - ./dev_cert.pem:/etc/ssl/cert.pem:ro
             - ./dev_privkey.pem:/etc/ssl/privkey.pem:ro
