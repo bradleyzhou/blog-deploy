@@ -21,3 +21,4 @@ services:
         volumes:
             - /etc/letsencrypt/live/www.bradleyzhou.com/cert.pem:/etc/ssl/cert.pem:ro
             - /etc/letsencrypt/live/www.bradleyzhou.com/privkey.pem:/etc/ssl/privkey.pem:ro
+            - /usr/share/nginx/html/.well-known:/var/www/blog/.well-known:ro
