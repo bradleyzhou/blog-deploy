@@ -11,12 +11,12 @@ cd blog-deploy
 
 ### Build `blognginx` image
 Prepare `frontend` static files
-- Build the static files from [blog-frontend repo](https://github.com/bradleyzhou/blog-frontend) (e.g. run `npm run build`)
-* Put these files under `nging/frontend` directory (e.g. rename and move `dist` directory)
+- Build the static files from [blog-frontend repo](https://github.com/bradleyzhou/blog-frontend) (e.g. run `npm run build`) and create a `tar.gz` bundle. Normally this should done automatically via Travis CI.
+- Get the release number from the ['releases' page](https://github.com/bradleyzhou/blog-frontend/releases) , e.g. 'v1.0.0'
 
 This image exposes ports `80` and `443`
 ```
-docker build -t blognginx nginx
+docker build --build-arg blog_frontend_release=<type_in_the_release_number> -t blognginx nginx
 ```
 
 ### Build `blogapi` image
